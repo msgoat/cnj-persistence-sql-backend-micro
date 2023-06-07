@@ -4,7 +4,7 @@ Cloud native MicroProfile backend using JPA-based persistence to persist its dom
 
 ## Status
 
-[![Build Status](https://drone.cloudtrain.aws.msgoat.eu/api/badges/msgoat/cnj-persistence-sql-backend-micro/status.svg)](https://drone.cloudtrain.aws.msgoat.eu/msgoat/cnj-persistence-sql-backend-micro)
+![Build Status]()
 
 ## Release information
 

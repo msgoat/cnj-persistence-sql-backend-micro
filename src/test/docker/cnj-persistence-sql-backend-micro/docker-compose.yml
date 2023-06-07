@@ -3,13 +3,10 @@
 # Composes Docker containers and volumes to a runnable Java EE application
 # ----------------------------------------------------------------------------
 #
----
-version: '3.9'
-
 services:
 
   postgres:
-    image: postgres:11-alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changeit
@@ -26,9 +23,9 @@ services:
   downstream:
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-downstream:latest
     environment:
-      DOCKER_JAVA_OPTS: -Xms2g -Xmx2g
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain
+      DOCKER_JAVA_OPTS: -Xms1g -Xmx1g
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain
 
   backend:
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro:latest
@@ -36,10 +33,10 @@ services:
       - "38080:8080"
       - "38089:8089"
     environment:
-      DOCKER_JAVA_OPTS: -Xms2g -Xmx2g
+      DOCKER_JAVA_OPTS: -Xms1g -Xmx1g
       AGENT_JAVA_OPTS: "-javaagent:/home/payara/org.jacoco.agent.jar=output=tcpserver,address=*,port=8089"
-      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs"
-      MP_JWT_VERIFY_ISSUER: "https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain"
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain/protocol/openid-connect/certs"
+      MP_JWT_VERIFY_ISSUER: "https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain"
       CLOUDTRAIN_SERVICES_GRANTEDPERMISSIONS_MP_REST_URL: "http://downstream:8080"
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: changeit

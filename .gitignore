@@ -43,11 +43,12 @@ hs_err_pid*
 .idea/
 *.iml
 
-# Spring metadata files
-.springBeans
-mvnw
-mvnw.cmd
-
 # MAVEN build artifacts
-target/
-.flattened-pom.xml
+**/target/
+**/.flattened-pom.xml
+
+# HELM build artifacts
+**/*.tgz
+**/requirements.lock
+
+
