@@ -1,0 +1,52 @@
+# docker-compose.yml
+# ----------------------------------------------------------------------------
+# Composes Docker containers and volumes to a runnable application
+# ----------------------------------------------------------------------------
+#
+services:
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeit
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: cloudtrain
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "--username", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  downstream:
+    image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-downstream:latest
+    environment:
+      DOCKER_JAVA_OPTS: -Xms1g -Xmx1g
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain
+
+  backend:
+    image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro:latest
+    ports:
+      - "38080:8080"
+    environment:
+      DOCKER_JAVA_OPTS: -Xms1g -Xmx1g
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain/protocol/openid-connect/certs"
+      MP_JWT_VERIFY_ISSUER: "https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain"
+      CLOUDTRAIN_SERVICES_GRANTEDPERMISSIONS_MP_REST_URL: "http://downstream:8080"
+      POSTGRES_DB_USER: postgres
+      POSTGRES_DB_PASSWORD: changeit
+      POSTGRES_DB_NAME: cloudtrain
+      POSTGRES_DB_HOST: postgres
+      POSTGRES_DB_PORT: 5432
+    depends_on:
+      downstream:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+volumes:
+
+  postgres-data:

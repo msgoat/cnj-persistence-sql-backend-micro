@@ -1,0 +1,522 @@
+openapi: 3.0.0
+info:
+  title: ${project.artifactId}
+  description: ${project.description}
+  version: ${revision}
+  contact:
+    url: https://github.com/msgoat/${project.artifactId}
+servers:
+  - url: ${k8s.test.target.route}
+paths:
+  /api/v1/tasks:
+    get:
+      summary: returns all tasks
+      operationId: getAllTasks
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Task'
+          description: body contains all available tasks
+      deprecated: false
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+    post:
+      summary: creates a new task based on the given task data and returns its location
+        URI
+      operationId: addTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "201":
+          headers:
+            Location:
+              description: URI of newly created task
+              required: false
+              deprecated: false
+              allowEmptyValue: false
+              style: simple
+          description: task could be created successfully; header location contains
+            URI of newly created task; body is empty
+        "400":
+          description: failed to create new task due to invalid task data
+        "500":
+          description: failed to create new task due to internal error
+      deprecated: false
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+  /api/v1/tasks/{taskId}:
+    get:
+      summary: returns the task with the given task ID
+      operationId: getTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Task'
+          description: body contains the task with the given task ID
+        "400":
+          description: unable to find a task with the given task ID; body is empty
+      deprecated: false
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+    put:
+      summary: updates the given task
+      operationId: modifyTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "204":
+          description: task could be updated successfully; body is empty
+        "400":
+          description: failed to update task due to invalid task data
+        "500":
+          description: failed to create new task due to internal error
+      deprecated: false
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+    delete:
+      summary: deletes the given task
+      operationId: removeTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: object
+      responses:
+        "204":
+          description: task could be deleted successfully; body is empty
+        "500":
+          description: failed to delete task due to internal error
+      deprecated: false
+      security:
+        - oidc:
+            - openid
+            - microprofile-jwt
+endpoints:
+  /:
+    - /api/v1/tasks
+    - "/api/v1/tasks/{taskId}"
+components:
+  schemas:
+    Task:
+      exclusiveMaximum: false
+      exclusiveMinimum: false
+      minLength: 0
+      uniqueItems: false
+      maxProperties: 0
+      minProperties: 0
+      required:
+        - category
+        - lifeCycleState
+        - priority
+        - subject
+      type: object
+      properties:
+        affectedApplicationId:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 32
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: application-ID of the application this task is related to
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        lastModifiedAt:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: date/time when this task has been modified
+          format: date-time
+          nullable: false
+          readOnly: true
+          writeOnly: false
+          deprecated: false
+        subject:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 80
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: single-line description or summary of what this task is about
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        dueDate:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: date/time when this task is supposed to be completed
+          format: date-time
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        lastModifiedBy:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 31
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: user-ID of the last user who modified this task
+          nullable: false
+          readOnly: true
+          writeOnly: false
+          deprecated: false
+        description:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 1024
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: detailed description of this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        completionRate:
+          maximum: 100
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: integer
+          description: "completion rate in percent, ranges from 0 to 100"
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        priority:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: priority
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+          enum:
+            - UNDEFINED
+            - LOW
+            - MEDIUM
+            - HIGH
+            - CRITICAL
+        completedByUserId:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 16
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: user-ID of participant who completed this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        createdAt:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: date/time when this task has been created
+          format: date-time
+          nullable: false
+          readOnly: true
+          writeOnly: false
+          deprecated: false
+        submitterUserId:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: user-ID of participant who submitted this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        affectedResource:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 256
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: application resource that this task is referring to
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        createdBy:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 31
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: user-ID of the user who created this task
+          nullable: false
+          readOnly: true
+          writeOnly: false
+          deprecated: false
+        actualEffort:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: integer
+          description: actual effort in hours to complete this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        affectedProjectId:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 32
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: project-ID of the project this task is related to
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        completionDate:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: date/time when this task has been completed
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        id:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: unique identifier of this task
+          format: uuid
+          nullable: false
+          readOnly: true
+          writeOnly: false
+          deprecated: false
+        category:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: "groups task into specific categories (see: TaskCategory)"
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+          enum:
+            - UNDEFINED
+            - BUGFIX
+            - REFACTORING
+            - NEW_FEATURE
+            - PERFORMANCE_IMPROVEMENT
+            - RELEASE_MANAGEMENT
+            - QUALITY_ASSURANCE
+            - BUILD_FAILURE
+            - COMMUNICATION
+        submittedAt:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: date/time when this task has been submitted
+          format: date-time
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        responsibleUserId:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 16
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: user-ID of participant who is currently responsible for the
+            completion of this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        estimatedEffort:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: integer
+          description: estimated effort in hours to complete this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+        lifeCycleState:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: object
+          description: status of this task
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+          enum:
+            - UNDEFINED
+            - OPEN_UNDER_WORK
+            - OPEN_RUNNING
+            - CLOSED_COMPLETED
+            - CLOSED_REVOKED
+            - CLOSED_CANCELLED
+        affectedModule:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          maxLength: 32
+          minLength: 0
+          uniqueItems: false
+          maxProperties: 0
+          minProperties: 0
+          type: string
+          description: name of the logical module this task is related to
+          nullable: false
+          readOnly: false
+          writeOnly: false
+          deprecated: false
+      description: represents a task
+      nullable: false
+      readOnly: false
+      writeOnly: false
+      deprecated: false
+    TaskCategory:
+      description: enumeration representing the various categories of a task
+      enum:
+        - UNDEFINED
+        - BUGFIX
+        - REFACTORING
+        - NEW_FEATURE
+        - PERFORMANCE_IMPROVEMENT
+        - RELEASE_MANAGEMENT
+        - QUALITY_ASSURANCE
+        - BUILD_FAILURE
+        - COMMUNICATION
+    TaskLifeCycleState:
+      description: enumeration representing the life-cycle of a task
+      enum:
+        - UNDEFINED
+        - OPEN_UNDER_WORK
+        - OPEN_RUNNING
+        - CLOSED_COMPLETED
+        - CLOSED_REVOKED
+        - CLOSED_CANCELLED
+    TaskPriority:
+      description: enumeration representing the priority of a task
+      enum:
+        - UNDEFINED
+        - LOW
+        - MEDIUM
+        - HIGH
+        - CRITICAL
+  securitySchemes:
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: https://oidc.cloudtrain.aws.msgoat.eu/realms/cloudtrain/.well-known/openid-configuration

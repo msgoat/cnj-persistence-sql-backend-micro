@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.1.0] - 2023-08-25
+### Added
+- added explicit dependency to CloudTrain Maven repository to POM to simplify local builds
+- allowed anonymous read access to CloudTrain Maven repository to simplify local builds
+- added global docker-compose.yml file to simplify local execution
+### Changed
+- improved documentation in README.md
+
 ## [5.0.0] - 2023-06-07
 ### Changed
 - moved to new AWS CodeBuild build pipeline

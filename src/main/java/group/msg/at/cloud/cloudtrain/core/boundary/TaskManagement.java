@@ -3,12 +3,12 @@ package group.msg.at.cloud.cloudtrain.core.boundary;
 import group.msg.at.cloud.cloudtrain.adapter.persistence.jpa.repository.GenericRepository;
 import group.msg.at.cloud.cloudtrain.core.control.UserPermissionVerifier;
 import group.msg.at.cloud.cloudtrain.core.entity.Task;
-
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 import java.util.UUID;
 
