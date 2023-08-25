@@ -4,7 +4,7 @@ Cloud native MicroProfile backend using JPA-based persistence to persist its dom
 
 ## Status
 
-![Build Status]()
+![Build Status](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiS0w4OGNSVFdmUlVraHlobDI5eGJYWk1nRW9aSThTb3U0RGpZLzMzczlWUE5TWEJQWVFNUkUvRngvT2doK0RsYXlZV2xqcFZ5NmJpRUhFazdCcWZGclQwPSIsIml2UGFyYW1ldGVyU3BlYyI6Ik9RbWpkVU0wRjRwd3VWWCsiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
 
 ## Release information
 
