@@ -6,11 +6,11 @@ The application is packaged as a multi-architecture docker image which supports 
 * linux/amd64
 * linux/arm64/v8
 
-## Synopsis
+**## Synopsis
 
 This showcase demonstrates
 * how to integrate relational databases in Spring Boot application using JPA
-* how to create evolve relational database schemas using FlyWay
+* how to create evolve relational database schemas using FlyWay**
 
 ### Extensions to JPA
 
@@ -36,11 +36,11 @@ Check [changelog](changelog.md) for latest version and release information.
 
 ## Docker Pull Command
 
-`docker pull docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-quarkus`
+`docker pull docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro`
 
 ## Helm Pull Command
 
-`helm pull oci://docker.cloudtrain.aws.msgoat.eu/cloudtrain-charts/cnj-persistence-sql-backend-quarkus`
+`helm pull oci://docker.cloudtrain.aws.msgoat.eu/cloudtrain-charts/cnj-persistence-sql-backend-micro`
 
 ## HOW-TO build this application locally
 
