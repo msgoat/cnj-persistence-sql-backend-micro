@@ -27,9 +27,6 @@
         <assertj.version>3.24.2</assertj.version>
         <restassured.version>5.4.0</restassured.version>
         <jackson.version>2.15.3</jackson.version>
-        <!-- common test dependencies -->
-        <junit.version>5.8.1</junit.version>
-        <restassured.version>4.5.1</restassured.version>
         <!-- common persistence dependencies -->
         <flyway.version>9.19.1</flyway.version>
         <postgres.jdbc.version>42.6.0</postgres.jdbc.version>
