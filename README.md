@@ -2,17 +2,9 @@
 
 Cloud native MicroProfile backend using JPA-based persistence to persist its domain model in a PostgreSQL database.
 
-## Status
-
-![Build Status](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiS0w4OGNSVFdmUlVraHlobDI5eGJYWk1nRW9aSThTb3U0RGpZLzMzczlWUE5TWEJQWVFNUkUvRngvT2doK0RsYXlZV2xqcFZ5NmJpRUhFazdCcWZGclQwPSIsIml2UGFyYW1ldGVyU3BlYyI6Ik9RbWpkVU0wRjRwd3VWWCsiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
-
-## Release information
-
-Check [changelog](changelog.md) for latest version and release information.
-
-## Docker Pull Command
-
-`docker pull docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-quarkus`
+The application is packaged as a multi-architecture docker image which supports the following platforms:
+* linux/amd64
+* linux/arm64/v8
 
 ## Synopsis
 
@@ -30,9 +22,25 @@ See GitHub repo [cnj-common-persistence-jakarta](https://github.com/msgoat/cnj-c
 ### Database schema management
 
 The SQL files to create and update the database schema are part of the application code at `/src/main/resources/db.migration`.
-Since MicroProfile does not have any support of database migrations during application start, the startup bean 
+Since MicroProfile does not have any support of database migrations during application start, the startup bean
 [FlywayDatabaseAutoMigrator](src/main/java/group/msg/at/cloud/cloudtrain/adapter/persistence/migration/FlywayDatabaseAutoMigrator.java)
 has to do all the heavy lifting.
+
+## Status
+
+![Build Status](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiS0w4OGNSVFdmUlVraHlobDI5eGJYWk1nRW9aSThTb3U0RGpZLzMzczlWUE5TWEJQWVFNUkUvRngvT2doK0RsYXlZV2xqcFZ5NmJpRUhFazdCcWZGclQwPSIsIml2UGFyYW1ldGVyU3BlYyI6Ik9RbWpkVU0wRjRwd3VWWCsiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
+
+## Release information
+
+Check [changelog](changelog.md) for latest version and release information.
+
+## Docker Pull Command
+
+`docker pull docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-quarkus`
+
+## Helm Pull Command
+
+`helm pull oci://docker.cloudtrain.aws.msgoat.eu/cloudtrain-charts/cnj-persistence-sql-backend-quarkus`
 
 ## HOW-TO build this application locally
 
