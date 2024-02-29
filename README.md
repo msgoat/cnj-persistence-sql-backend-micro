@@ -6,7 +6,7 @@ The application is packaged as a multi-architecture docker image which supports 
 * linux/amd64
 * linux/arm64/v8
 
-**## Synopsis
+## Synopsis
 
 This showcase demonstrates
 * how to integrate relational databases in Spring Boot application using JPA
